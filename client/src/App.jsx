@@ -11,6 +11,11 @@ function App() {
   return (
     <div className="App">
       <h1>{message || "Loading..."}</h1>
+      <div className="flex items-center justify-center min-h-screen bg-blue-50">
+        <h1 className="text-3xl font-bold text-emerald-600">
+          Hello, Tailwind is working!
+        </h1>
+      </div>
     </div>
   );
 }
