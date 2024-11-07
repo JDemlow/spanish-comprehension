@@ -1,22 +1,17 @@
-import { useEffect, useState } from "react";
-import { testConnection } from "./services/api";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import PracticePage from "./pages/PracticePage";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    testConnection().then(setMessage);
-  }, []);
-
   return (
-    <div className="App">
-      <h1>{message || "Loading..."}</h1>
-      <div className="flex items-center justify-center min-h-screen bg-blue-50">
-        <h1 className="text-3xl font-bold text-emerald-600">
-          Hello, Tailwind is working!
-        </h1>
-      </div>
-    </div>
+    <BrowserRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/practice" element={<PracticePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
