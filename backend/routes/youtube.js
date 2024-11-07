@@ -27,4 +27,18 @@ router.get("/search", async (req, res) => {
   }
 });
 
+router.get("/captions/:videoId", async (req, res) => {
+  const { videoId } = req.params;
+
+  try {
+    // Placeholder for fetching captions. In production, integrate an API or service for actual captions.
+    const placeholderCaptions =
+      "This is a placeholder caption text for the video.";
+    res.status(200).json({ captions: placeholderCaptions });
+  } catch (error) {
+    console.error("Error fetching captions:", error);
+    res.status(500).json({ error: "Failed to fetch captions" });
+  }
+});
+
 export default router;

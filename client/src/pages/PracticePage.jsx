@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { fetchTedTalks } from "../services/api";
+import { fetchTedTalks, fetchCaptions } from "../services/api";
 import Transcript from "../components/Transcript";
 
 function PracticePage() {
   const [tedTalks, setTedTalks] = useState([]);
   const [selectedTalk, setSelectedTalk] = useState(null);
+  const [captions, setCaptions] = useState("");
 
   useEffect(() => {
     fetchTedTalks().then((data) => {
@@ -12,6 +13,12 @@ function PracticePage() {
       setSelectedTalk(data[0]); // Select the first TED Talk as a default for now
     });
   }, []);
+
+  useEffect(() => {
+    if (selectedTalk) {
+      fetchCaptions(selectedTalk.id.videoId).then(setCaptions);
+    }
+  }, [selectedTalk]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -22,8 +29,7 @@ function PracticePage() {
             {selectedTalk.snippet.title}
           </h2>
           <p>{selectedTalk.snippet.description}</p>
-          {/* Placeholder transcript */}
-          <Transcript transcript="This is a placeholder for the TED Talk transcript. It will be dynamically fetched later." />
+          <Transcript transcript={captions} />
         </div>
       )}
     </div>

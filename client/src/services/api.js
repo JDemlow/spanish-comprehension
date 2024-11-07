@@ -23,3 +23,16 @@ export const fetchTedTalks = async (query = "TED Talks Spanish") => {
     return [];
   }
 };
+
+export const fetchCaptions = async (videoId) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/youtube/captions/${videoId}`
+    );
+    const data = await response.json();
+    return data.captions;
+  } catch (error) {
+    console.error("Error fetching captions:", error);
+    return "Failed to load captions.";
+  }
+};
