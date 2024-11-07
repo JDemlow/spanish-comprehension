@@ -1,0 +1,33 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.production
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Build output
+dist/
+build/
+coverage/
+
+# IDE and editor folders
+.vscode/
+.idea/
+.DS_Store
+
+# Operating system files
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
