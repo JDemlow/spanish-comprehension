@@ -48,6 +48,12 @@ function Transcript({ transcript }) {
     }
   };
 
+  const handleReset = () => {
+    setInputs({});
+    setFeedback({});
+    setScore(0);
+  };
+
   return (
     <div className="mt-6 p-4 bg-gray-50 rounded shadow-md max-w-2xl w-full">
       <h2 className="text-2xl font-semibold mb-4">Transcript</h2>
@@ -74,6 +80,12 @@ function Transcript({ transcript }) {
           )
         )}
       </p>
+      <button
+        onClick={handleReset}
+        className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Reset
+      </button>
     </div>
   );
 }
