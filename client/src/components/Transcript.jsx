@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 function Transcript({ transcript }) {
@@ -15,9 +15,9 @@ function Transcript({ transcript }) {
   const [inputs, setInputs] = useState({});
   const [feedback, setFeedback] = useState({});
   const [score, setScore] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
   const totalBlanks = Object.keys(correctAnswers).length;
 
-  // Update score and progress whenever inputs change
   useEffect(() => {
     const correctCount = Object.keys(inputs).reduce((count, index) => {
       if (
@@ -29,6 +29,7 @@ function Transcript({ transcript }) {
       return count;
     }, 0);
     setScore(correctCount);
+    setIsComplete(correctCount === totalBlanks);
   }, [inputs]);
 
   const handleChange = (event, index) => {
@@ -54,14 +55,19 @@ function Transcript({ transcript }) {
     setInputs({});
     setFeedback({});
     setScore(0);
+    setIsComplete(false);
   };
 
-  // Calculate progress as a percentage
   const progress = Math.round((score / totalBlanks) * 100);
 
   return (
     <div className="mt-6 p-4 bg-gray-50 rounded shadow-md max-w-2xl w-full">
       <h2 className="text-2xl font-semibold mb-4">Transcript</h2>
+      {isComplete && (
+        <p className="text-xl font-bold text-green-600 mb-4">
+          Congratulations! You've completed the exercise!
+        </p>
+      )}
       <div className="w-full bg-gray-300 rounded-full h-6 mb-4">
         <div
           className="bg-blue-500 h-6 rounded-full text-center text-white font-semibold"
