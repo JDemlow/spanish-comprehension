@@ -36,3 +36,21 @@ export const fetchCaptions = async (videoId) => {
     return "Failed to load captions.";
   }
 };
+
+// frontend/api.js
+
+export async function fetchTranscript(videoId) {
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:5000/api/transcript?videoId=${videoId}&lang=es`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch transcript");
+    }
+    const transcript = await response.json();
+    return transcript;
+  } catch (error) {
+    console.error("Error fetching transcript:", error);
+    return null;
+  }
+}
