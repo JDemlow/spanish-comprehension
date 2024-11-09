@@ -3,6 +3,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from flask_cors import CORS
 import os
 import requests
+import random
 
 app = Flask(__name__)
 CORS(app)
@@ -30,6 +31,9 @@ def get_transcript():
         return jsonify({"error": str(e)}), 400
 
 
+import random
+
+
 @app.route("/api/youtube/search", methods=["GET"])
 def youtube_search():
     query = request.args.get("query")
@@ -42,8 +46,20 @@ def youtube_search():
         "q": query,
         "type": "video",
         "key": YOUTUBE_API_KEY,
-        "maxResults": 7,  # Adjust this number as needed (up to 50)
+        "maxResults": 7,  # Fetch a larger pool
     }
+
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        # Randomly pick 7 items
+        random_items = random.sample(data["items"], 7)
+        return jsonify({"items": random_items})
+    else:
+        return (
+            jsonify({"error": "Failed to fetch data from YouTube"}),
+            response.status_code,
+        )
 
     response = requests.get(url, params=params)
     if response.status_code == 200:
