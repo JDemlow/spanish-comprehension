@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { fetchTedTalks } from "../services/api";
 import TranscriptDisplay from "../components/TranscriptDisplay";
 
@@ -18,8 +18,8 @@ function PracticePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100 sm:p-6 lg:p-8">
+      <h1 className="text-2xl font-bold text-blue-600 sm:text-3xl lg:text-4xl">
         Practice Page
       </h1>
 
@@ -27,7 +27,7 @@ function PracticePage() {
       {tedTalks.length > 0 && (
         <select
           onChange={handleSelectTalk}
-          className="mt-4 mb-4 px-3 py-2 w-full sm:w-1/2 lg:w-1/3 border border-gray-300 rounded text-sm sm:text-base"
+          className="w-full px-3 py-2 mt-4 mb-4 text-sm border border-gray-300 rounded sm:w-1/2 lg:w-1/3 sm:text-base"
         >
           {tedTalks.map((talk, index) => (
             <option key={talk.id.videoId} value={index}>
@@ -38,16 +38,16 @@ function PracticePage() {
       )}
 
       {selectedTalk && (
-        <div className="mt-4 w-full max-w-xl">
-          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-center">
+        <div className="w-full max-w-xl mt-4">
+          <h2 className="text-lg font-semibold text-center sm:text-xl lg:text-2xl">
             {selectedTalk.snippet.title}
           </h2>
-          <p className="text-sm sm:text-base mt-2 text-center">
+          <p className="mt-2 text-sm text-center sm:text-base">
             {selectedTalk.snippet.description}
           </p>
 
           {/* Responsive YouTube Video Embed */}
-          <div className="mt-4 w-full max-w-xl">
+          <div className="w-full max-w-xl mt-4">
             <div
               className="relative overflow-hidden"
               style={{ paddingTop: "56.25%" }}

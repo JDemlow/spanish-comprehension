@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 function Transcript({ transcript }) {
@@ -11,12 +11,12 @@ function Transcript({ transcript }) {
   const parts = transcript.split(
     new RegExp(`(${wordsToReplace.join("|")})`, "g")
   );
-
   const [inputs, setInputs] = useState({});
   const [feedback, setFeedback] = useState({});
   const [score, setScore] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const totalBlanks = Object.keys(correctAnswers).length;
+  const activeInputRef = useRef(null); // Track the active input field
 
   useEffect(() => {
     const correctCount = Object.keys(inputs).reduce((count, index) => {
@@ -58,53 +58,75 @@ function Transcript({ transcript }) {
     setIsComplete(false);
   };
 
-  const progress = Math.round((score / totalBlanks) * 100);
+  // Handle insertion of special character into the active input field
+  const handleSpecialCharClick = (char) => {
+    if (activeInputRef.current) {
+      const { value, selectionStart, selectionEnd } = activeInputRef.current;
+      const newValue =
+        value.slice(0, selectionStart) + char + value.slice(selectionEnd);
+      activeInputRef.current.value = newValue; // Update the input's value directly
+      handleChange(
+        { target: { value: newValue } },
+        activeInputRef.current.dataset.index
+      );
+    }
+  };
 
   return (
-    <div className="mt-6 p-4 bg-gray-50 rounded shadow-md max-w-2xl w-full">
-      <h2 className="text-2xl font-semibold mb-4">Transcript</h2>
-      {isComplete && (
-        <p className="text-xl font-bold text-green-600 mb-4">
-          Congratulations! You've completed the exercise!
-        </p>
-      )}
-      <div className="w-full bg-gray-300 rounded-full h-6 mb-4">
-        <div
-          className="bg-blue-500 h-6 rounded-full text-center text-white font-semibold"
-          style={{ width: `${progress}%` }}
-        >
-          {progress}%
-        </div>
+    <div className="relative flex">
+      {/* Fixed sidebar for special characters */}
+      <div className="fixed flex flex-col space-y-2 left-4 top-20">
+        {["á", "é", "í", "ó", "ú", "ñ", "¿", "¡"].map((char) => (
+          <button
+            key={char}
+            onClick={() => handleSpecialCharClick(char)}
+            className="px-2 py-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-600"
+          >
+            {char}
+          </button>
+        ))}
       </div>
-      <p className="text-lg font-semibold">
-        Score: {score} / {totalBlanks}
-      </p>
-      <p className="text-gray-700">
-        {parts.map((part, index) =>
-          wordsToReplace.includes(part) ? (
-            <span key={index}>
-              <input
-                type="text"
-                value={inputs[index] || ""}
-                onChange={(event) => handleChange(event, index)}
-                placeholder="Fill in"
-                className="border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none mx-1"
-              />
-              <span className="ml-2 text-sm text-gray-500">
-                {feedback[index] || ""}
-              </span>
-            </span>
-          ) : (
-            part
-          )
+
+      {/* Main content area */}
+      <div className="w-full max-w-2xl p-4 mt-6 ml-20 rounded shadow-md bg-gray-50">
+        <h2 className="mb-4 text-2xl font-semibold">Transcript</h2>
+        {isComplete && (
+          <p className="mb-4 text-xl font-bold text-green-600">
+            Congratulations! You've completed the exercise!
+          </p>
         )}
-      </p>
-      <button
-        onClick={handleReset}
-        className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Reset
-      </button>
+        <p className="text-lg font-semibold">
+          Score: {score} / {totalBlanks}
+        </p>
+        <p className="text-gray-700">
+          {parts.map((part, index) =>
+            wordsToReplace.includes(part) ? (
+              <span key={index}>
+                <input
+                  type="text"
+                  value={inputs[index] || ""}
+                  onChange={(event) => handleChange(event, index)}
+                  placeholder="Fill in"
+                  className="mx-1 border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none"
+                  onFocus={(e) => (activeInputRef.current = e.target)} // Track active input
+                  data-index={index}
+                />
+                <span className="ml-2 text-sm text-gray-500">
+                  {feedback[index] || ""}
+                </span>
+              </span>
+            ) : (
+              part
+            )
+          )}
+        </p>
+        <button
+          onClick={handleReset}
+          className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+        >
+          Reset
+        </button>
+      </div>
     </div>
   );
 }
