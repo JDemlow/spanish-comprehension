@@ -41,6 +41,15 @@ function TranscriptDisplay({ videoId }) {
     setScore(correctCount);
   };
 
+  // Calculate progress percentage
+  const totalBlanks = Math.floor(
+    transcript?.reduce(
+      (count, item) => count + item.text.split(" ").length,
+      0
+    ) / 5
+  );
+  const progress = totalBlanks ? Math.round((score / totalBlanks) * 100) : 0;
+
   // Handle inserting special character into the active input
   const handleSpecialCharClick = (char) => {
     if (activeInputRef.current) {
@@ -52,22 +61,40 @@ function TranscriptDisplay({ videoId }) {
     }
   };
 
+  // Reset the exercise
+  const handleReset = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to reset? This will clear your progress."
+      )
+    ) {
+      setAnswers({});
+      setScore(0);
+      activeInputRef.current = null;
+    }
+  };
+
   if (!transcript) {
     return <p>Loading transcript...</p>;
   }
 
   return (
     <div className="relative flex">
-      {/* Fixed sidebar for special characters, check answers button, and score */}
+      {/* Fixed sidebar for progress bar, score, check answers button, special characters, and reset button */}
       <div className="fixed flex flex-col space-y-2 left-4 top-20">
+        {/* Progress Bar */}
+        <div className="w-full h-4 bg-gray-300 rounded-full">
+          <div
+            className="h-4 text-xs text-center text-white bg-blue-500 rounded-full"
+            style={{ width: `${progress}%` }}
+          >
+            {progress}%
+          </div>
+        </div>
+
+        {/* Score and Check Answers Button */}
         <p className="font-semibold text-gray-700">
-          Score: {score} /{" "}
-          {Math.floor(
-            transcript.reduce(
-              (count, item) => count + item.text.split(" ").length,
-              0
-            ) / 5
-          )}
+          Score: {score} / {totalBlanks}
         </p>
         <button
           onClick={handleCheckAnswers}
@@ -75,6 +102,8 @@ function TranscriptDisplay({ videoId }) {
         >
           Check Answers
         </button>
+
+        {/* Special Character Buttons */}
         {["á", "é", "í", "ó", "ú", "ñ", "¿", "¡"].map((char) => (
           <button
             key={char}
@@ -84,6 +113,14 @@ function TranscriptDisplay({ videoId }) {
             {char}
           </button>
         ))}
+
+        {/* Reset Button */}
+        <button
+          onClick={handleReset}
+          className="px-4 py-2 mt-4 font-bold text-white bg-red-500 rounded hover:bg-red-600"
+        >
+          Reset
+        </button>
       </div>
 
       {/* Main content area */}
