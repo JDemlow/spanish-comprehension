@@ -58,8 +58,23 @@ function TranscriptDisplay({ videoId }) {
 
   return (
     <div className="relative flex">
-      {/* Fixed sidebar for special characters */}
+      {/* Fixed sidebar for special characters, check answers button, and score */}
       <div className="fixed flex flex-col space-y-2 left-4 top-20">
+        <p className="font-semibold text-gray-700">
+          Score: {score} /{" "}
+          {Math.floor(
+            transcript.reduce(
+              (count, item) => count + item.text.split(" ").length,
+              0
+            ) / 5
+          )}
+        </p>
+        <button
+          onClick={handleCheckAnswers}
+          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
+          Check Answers
+        </button>
         {["á", "é", "í", "ó", "ú", "ñ", "¿", "¡"].map((char) => (
           <button
             key={char}
@@ -73,21 +88,6 @@ function TranscriptDisplay({ videoId }) {
 
       {/* Main content area */}
       <div className="w-full max-w-2xl p-4 mt-6 ml-20 rounded shadow-md bg-gray-50">
-        <button
-          onClick={handleCheckAnswers}
-          className="px-4 py-2 mt-4 text-white bg-blue-500"
-        >
-          Check Answers
-        </button>
-        <p>
-          Score: {score} /{" "}
-          {Math.floor(
-            transcript.reduce(
-              (count, item) => count + item.text.split(" ").length,
-              0
-            ) / 5
-          )}
-        </p>
         <h2>Transcript</h2>
         <div>
           {transcript.map((item, index) => (
