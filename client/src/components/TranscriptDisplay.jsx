@@ -77,13 +77,28 @@ function TranscriptDisplay({ videoId }) {
     }
   };
 
+  // Show correct answers
+  const handleShowAnswers = () => {
+    const correctAnswers = {};
+    transcript.forEach((item, index) => {
+      const words = item.text.split(" ");
+      words.forEach((word, wordIndex) => {
+        if (wordIndex % 5 === 0) {
+          correctAnswers[`${index}-${wordIndex}`] = word;
+        }
+      });
+    });
+    setAnswers(correctAnswers);
+    setChecked(true); // Mark as checked to show correct answers
+  };
+
   if (!transcript) {
     return <p>Loading transcript...</p>;
   }
 
   return (
     <div className="relative flex">
-      {/* Fixed sidebar for progress bar, score, check answers button, special characters, and reset button */}
+      {/* Fixed sidebar for progress bar, score, check answers button, special characters, reset button, and show answers button */}
       <div className="fixed flex flex-col space-y-2 left-4 top-20">
         {/* Progress Bar */}
         <div className="w-full h-4 bg-gray-300 rounded-full">
@@ -95,7 +110,7 @@ function TranscriptDisplay({ videoId }) {
           </div>
         </div>
 
-        {/* Score and Check Answers Button */}
+        {/* Score, Check Answers Button, and Show Answers Button */}
         <p className="font-semibold text-gray-700">
           Score: {score} / {totalBlanks}
         </p>
@@ -104,6 +119,12 @@ function TranscriptDisplay({ videoId }) {
           className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
         >
           Check Answers
+        </button>
+        <button
+          onClick={handleShowAnswers}
+          className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
+        >
+          Show Answers
         </button>
 
         {/* Special Character Buttons */}
