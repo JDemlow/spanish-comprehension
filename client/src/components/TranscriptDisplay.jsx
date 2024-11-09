@@ -6,6 +6,7 @@ function TranscriptDisplay({ videoId }) {
   const [transcript, setTranscript] = useState(null);
   const [answers, setAnswers] = useState({});
   const [score, setScore] = useState(0);
+  const [checked, setChecked] = useState(false); // Track if answers have been checked
   const activeInputRef = useRef(null); // Track the active input field
 
   useEffect(() => {
@@ -39,6 +40,7 @@ function TranscriptDisplay({ videoId }) {
       });
     });
     setScore(correctCount);
+    setChecked(true); // Mark as checked to enable styling for incorrect/blank fields
   };
 
   // Calculate progress percentage
@@ -70,6 +72,7 @@ function TranscriptDisplay({ videoId }) {
     ) {
       setAnswers({});
       setScore(0);
+      setChecked(false);
       activeInputRef.current = null;
     }
   };
@@ -130,17 +133,32 @@ function TranscriptDisplay({ videoId }) {
           {transcript.map((item, index) => (
             <p key={index}>
               <strong>{item.start.toFixed(2)}s:</strong>{" "}
-              {item.text.split(" ").map((word, wordIndex) =>
-                wordIndex % 5 === 0 ? (
+              {item.text.split(" ").map((word, wordIndex) => {
+                const answer = answers[`${index}-${wordIndex}`];
+                const isBlank = wordIndex % 5 === 0;
+                const isCorrect = answer?.toLowerCase() === word.toLowerCase();
+
+                // Determine input styles based on correctness and checked status
+                const inputClassNames = `w-20 px-3 py-2 text-lg text-center transition-all duration-300 ease-in-out border rounded-lg focus:outline-none focus:ring-2 ${
+                  checked
+                    ? isCorrect
+                      ? "bg-green-200 border-green-500"
+                      : answer
+                      ? "bg-red-200 border-red-500"
+                      : "bg-yellow-200 border-yellow-500"
+                    : "bg-gray-200 border-gray-300"
+                }`;
+
+                return isBlank ? (
                   <input
                     key={`${index}-${wordIndex}`}
                     type="text"
-                    value={answers[`${index}-${wordIndex}`] || ""}
+                    value={answer || ""}
                     onChange={(e) =>
                       handleChange(`${index}-${wordIndex}`, e.target.value)
                     }
                     placeholder=""
-                    className="w-20 px-3 py-2 text-lg text-center transition-all duration-300 ease-in-out bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-500"
+                    className={inputClassNames}
                     style={{ margin: "10px 20px" }}
                     onFocus={(e) => (activeInputRef.current = e.target)}
                     data-index={`${index}-${wordIndex}`}
@@ -152,8 +170,8 @@ function TranscriptDisplay({ videoId }) {
                   >
                     {word}
                   </span>
-                )
-              )}
+                );
+              })}
             </p>
           ))}
         </div>
