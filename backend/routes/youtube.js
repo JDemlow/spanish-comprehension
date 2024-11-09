@@ -17,8 +17,8 @@ router.get("/search", async (req, res) => {
     const response = await fetch(
       `${BASE_URL}/search?part=snippet&q=${encodeURIComponent(
         query
-      )}&type=video&key=${YOUTUBE_API_KEY}`
-    );
+      )}&type=video&key=${YOUTUBE_API_KEY}&maxResults=7`
+    ); // Adjust maxResults as needed, up to 50
     const data = await response.json();
     res.status(200).json(data);
   } catch (error) {

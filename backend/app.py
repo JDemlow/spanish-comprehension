@@ -37,7 +37,13 @@ def youtube_search():
         return jsonify({"error": "Query parameter is required"}), 400
 
     url = f"{BASE_URL}/search"
-    params = {"part": "snippet", "q": query, "type": "video", "key": YOUTUBE_API_KEY}
+    params = {
+        "part": "snippet",
+        "q": query,
+        "type": "video",
+        "key": YOUTUBE_API_KEY,
+        "maxResults": 7,  # Adjust this number as needed (up to 50)
+    }
 
     response = requests.get(url, params=params)
     if response.status_code == 200:
