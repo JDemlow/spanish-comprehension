@@ -38,7 +38,8 @@ function PracticePage() {
       )}
 
       {selectedTalk && (
-        <div className="w-full max-w-xl mt-4">
+        <div className="w-full max-w-xl">
+          {/* Non-sticky header and description */}
           <h2 className="text-lg font-semibold text-center sm:text-xl lg:text-2xl">
             {selectedTalk.snippet.title}
           </h2>
@@ -46,11 +47,18 @@ function PracticePage() {
             {selectedTalk.snippet.description}
           </p>
 
-          {/* Responsive YouTube Video Embed */}
-          <div className="w-full max-w-xl mt-4">
+          {/* Sticky and Resizable Video Player */}
+          <div className="sticky top-0 z-10 py-4 mt-4 bg-gray-100">
             <div
-              className="relative overflow-hidden"
-              style={{ paddingTop: "56.25%" }}
+              className="relative overflow-hidden bg-white rounded-md resize"
+              style={{
+                height: "300px",
+                width: "100%",
+                minHeight: "150px",
+                minWidth: "300px",
+                maxHeight: "600px",
+                maxWidth: "100%",
+              }}
             >
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
