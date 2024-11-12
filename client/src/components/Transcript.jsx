@@ -73,8 +73,8 @@ function Transcript({ transcript }) {
 
   return (
     <div className="relative flex flex-col sm:flex-row">
-      {/* Fixed sidebar for special characters */}
-      <div className="fixed flex flex-wrap space-y-2 left-2 sm:left-4 top-16 sm:top-20">
+      {/* Special characters sidebar - hidden on mobile */}
+      <div className="fixed flex-col hidden space-y-2 sm:flex left-2 sm:left-4 top-16 sm:top-20">
         {["á", "é", "í", "ó", "ú", "ñ", "¿", "¡"].map((char) => (
           <button
             key={char}
