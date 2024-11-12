@@ -111,7 +111,7 @@ function TranscriptDisplay({ videoId }) {
         </div>
 
         {/* Score, Check Answers Button, and Show Answers Button */}
-        <p className="font-semibold text-gray-700">
+        <p className="font-semibold text-white">
           Score: {score} / {totalBlanks}
         </p>
         <button
@@ -148,7 +148,7 @@ function TranscriptDisplay({ videoId }) {
       </div>
 
       {/* Main content area */}
-      <div className="w-full max-w-2xl p-4 mt-6 ml-20 rounded shadow-md bg-gray-50">
+      <div className="w-full max-w-2xl p-4 mt-6 ml-20 text-black rounded shadow-md bg-gray-50">
         <h2>Transcript</h2>
         <div>
           {transcript.map((item, index) => (

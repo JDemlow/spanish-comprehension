@@ -12,7 +12,9 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
       <Navbar onRandomTalk={randomTalkHandler} />
       <Routes>
         <Route path="/" element={<HomePage />} />
