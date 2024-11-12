@@ -6,7 +6,7 @@ import requests
 import random
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load environment variables
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
