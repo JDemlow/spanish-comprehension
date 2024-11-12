@@ -1,6 +1,7 @@
 [build]
   publish = "dist"
   command = "npm run build"
+  node_version = "18.17.1"
 
 [[redirects]]
   from = "/*"
