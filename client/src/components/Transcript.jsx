@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 function Transcript({ transcript }) {
   const wordsToReplace = ["caption", "video"];
   const correctAnswers = {
-    1: "caption", // First blank at index 1 expects "caption"
-    3: "video", // Second blank at index 3 expects "video"
+    1: "caption",
+    3: "video",
   };
 
   const parts = transcript.split(
@@ -16,7 +16,7 @@ function Transcript({ transcript }) {
   const [score, setScore] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const totalBlanks = Object.keys(correctAnswers).length;
-  const activeInputRef = useRef(null); // Track the active input field
+  const activeInputRef = useRef(null);
 
   useEffect(() => {
     const correctCount = Object.keys(inputs).reduce((count, index) => {
@@ -58,13 +58,12 @@ function Transcript({ transcript }) {
     setIsComplete(false);
   };
 
-  // Handle insertion of special character into the active input field
   const handleSpecialCharClick = (char) => {
     if (activeInputRef.current) {
       const { value, selectionStart, selectionEnd } = activeInputRef.current;
       const newValue =
         value.slice(0, selectionStart) + char + value.slice(selectionEnd);
-      activeInputRef.current.value = newValue; // Update the input's value directly
+      activeInputRef.current.value = newValue;
       handleChange(
         { target: { value: newValue } },
         activeInputRef.current.dataset.index
@@ -73,14 +72,14 @@ function Transcript({ transcript }) {
   };
 
   return (
-    <div className="relative flex">
+    <div className="relative flex flex-col sm:flex-row">
       {/* Fixed sidebar for special characters */}
-      <div className="fixed flex flex-col space-y-2 left-4 top-20">
+      <div className="fixed flex flex-wrap space-y-2 left-2 sm:left-4 top-16 sm:top-20">
         {["á", "é", "í", "ó", "ú", "ñ", "¿", "¡"].map((char) => (
           <button
             key={char}
             onClick={() => handleSpecialCharClick(char)}
-            className="px-2 py-1 font-bold text-white bg-blue-500 rounded hover:bg-blue-600"
+            className="px-2 py-1 text-sm font-bold text-white bg-blue-500 rounded sm:text-base hover:bg-blue-600"
           >
             {char}
           </button>
@@ -88,17 +87,17 @@ function Transcript({ transcript }) {
       </div>
 
       {/* Main content area */}
-      <div className="w-full max-w-2xl p-4 mt-6 ml-20 rounded shadow-md bg-gray-50">
-        <h2 className="mb-4 text-2xl font-semibold">Transcript</h2>
+      <div className="w-full max-w-sm p-3 mt-6 ml-16 rounded shadow-md sm:max-w-2xl sm:p-4 sm:ml-20 bg-gray-50">
+        <h2 className="mb-3 text-lg font-semibold sm:text-2xl">Transcript</h2>
         {isComplete && (
-          <p className="mb-4 text-xl font-bold text-green-600">
+          <p className="mb-3 text-lg font-bold text-green-600 sm:text-xl">
             Congratulations! You've completed the exercise!
           </p>
         )}
-        <p className="text-lg font-semibold">
+        <p className="text-sm font-semibold sm:text-lg">
           Score: {score} / {totalBlanks}
         </p>
-        <p className="text-gray-700">
+        <p className="text-xs text-gray-700 sm:text-base">
           {parts.map((part, index) =>
             wordsToReplace.includes(part) ? (
               <span key={index}>
@@ -107,11 +106,11 @@ function Transcript({ transcript }) {
                   value={inputs[index] || ""}
                   onChange={(event) => handleChange(event, index)}
                   placeholder="Fill in"
-                  className="mx-1 border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none"
-                  onFocus={(e) => (activeInputRef.current = e.target)} // Track active input
+                  className="w-16 p-1 mx-1 text-xs border-b-2 border-gray-300 sm:w-20 sm:text-base focus:border-blue-500 focus:outline-none"
+                  onFocus={(e) => (activeInputRef.current = e.target)}
                   data-index={index}
                 />
-                <span className="ml-2 text-sm text-gray-500">
+                <span className="ml-1 text-xs text-gray-500 sm:text-sm">
                   {feedback[index] || ""}
                 </span>
               </span>
@@ -122,7 +121,7 @@ function Transcript({ transcript }) {
         </p>
         <button
           onClick={handleReset}
-          className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+          className="px-3 py-1 mt-3 font-bold text-white bg-blue-500 rounded sm:px-4 sm:py-2 hover:bg-blue-700"
         >
           Reset
         </button>

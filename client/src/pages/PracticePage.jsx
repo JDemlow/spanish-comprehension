@@ -18,18 +18,20 @@ function PracticePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-green-900 sm:p-6 lg:p-8">
+    <div className="flex flex-col items-center justify-center min-h-screen p-2 bg-green-900 sm:p-4 lg:p-6">
       {/* Gamification Header */}
-      <div className="flex items-center justify-between w-full max-w-xl p-3 mb-4 text-white bg-green-800 rounded-md">
-        <span className="text-2xl font-bold">00000</span>
-        <div className="flex items-center space-x-4">
-          <span>GAPS 62</span>
-          <span className="flex items-center text-orange-500">❤️ 3</span>
+      <div className="flex flex-wrap items-center justify-between w-full max-w-xl p-2 text-white bg-green-800 rounded-md sm:p-3">
+        <span className="text-xl font-bold sm:text-2xl">00000</span>
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          <span className="text-sm sm:text-base">GAPS 62</span>
+          <span className="flex items-center text-sm text-orange-500 sm:text-base">
+            ❤️ 3
+          </span>
         </div>
       </div>
 
       {/* Title */}
-      <h1 className="mb-6 text-3xl font-bold text-green-200 sm:text-4xl lg:text-5xl">
+      <h1 className="mb-4 text-2xl font-bold text-center text-green-200 sm:mb-6 sm:text-3xl lg:text-4xl">
         Practice Page
       </h1>
 
@@ -37,7 +39,7 @@ function PracticePage() {
       {tedTalks.length > 0 && (
         <select
           onChange={handleSelectTalk}
-          className="w-full max-w-md px-3 py-2 mb-4 text-sm bg-green-200 border border-green-300 rounded-lg sm:text-base"
+          className="w-full max-w-sm px-2 py-1 mb-3 text-xs bg-green-200 border border-green-300 rounded-lg sm:px-3 sm:py-2 sm:mb-4 sm:text-sm"
         >
           {tedTalks.map((talk, index) => (
             <option key={talk.id.videoId} value={index}>
@@ -48,25 +50,23 @@ function PracticePage() {
       )}
 
       {selectedTalk && (
-        <div className="w-full max-w-xl p-4 text-green-200 bg-green-700 rounded-lg shadow-lg">
+        <div className="w-full max-w-md p-3 text-green-200 bg-green-700 rounded-lg shadow-lg sm:max-w-xl sm:p-4">
           {/* Talk Title and Description */}
           <h2 className="mb-2 text-lg font-semibold text-center sm:text-xl lg:text-2xl">
             {selectedTalk.snippet.title}
           </h2>
-          <p className="mb-4 text-sm text-center sm:text-base">
+          <p className="mb-3 text-xs text-center sm:mb-4 sm:text-sm">
             {selectedTalk.snippet.description}
           </p>
 
           {/* Video Player */}
           <div
-            className="relative mb-4 overflow-hidden bg-white rounded-md resize"
+            className="relative mb-3 overflow-hidden bg-white rounded-md resize sm:mb-4"
             style={{
-              height: "300px",
+              height: "200px",
               width: "100%",
               minHeight: "150px",
-              minWidth: "300px",
-              maxHeight: "600px",
-              maxWidth: "100%",
+              maxHeight: "400px",
             }}
           >
             <iframe
@@ -80,7 +80,7 @@ function PracticePage() {
           </div>
 
           {/* Transcript Display */}
-          <div className="p-3 text-center bg-green-600 rounded-lg">
+          <div className="p-2 text-center bg-green-600 rounded-lg sm:p-3">
             <TranscriptDisplay videoId={selectedTalk.id.videoId} />
           </div>
         </div>
