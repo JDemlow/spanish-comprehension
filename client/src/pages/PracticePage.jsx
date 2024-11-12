@@ -18,18 +18,18 @@ function PracticePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-blue-900 sm:p-6 lg:p-8">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-green-900 sm:p-6 lg:p-8">
       {/* Gamification Header */}
-      <div className="flex items-center justify-between w-full max-w-xl p-3 mb-4 text-white bg-blue-800 rounded-md">
+      <div className="flex items-center justify-between w-full max-w-xl p-3 mb-4 text-white bg-green-800 rounded-md">
         <span className="text-2xl font-bold">00000</span>
         <div className="flex items-center space-x-4">
           <span>GAPS 62</span>
-          <span className="flex items-center">❤️ 3</span>
+          <span className="flex items-center text-orange-500">❤️ 3</span>
         </div>
       </div>
 
       {/* Title */}
-      <h1 className="mb-6 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+      <h1 className="mb-6 text-3xl font-bold text-green-200 sm:text-4xl lg:text-5xl">
         Practice Page
       </h1>
 
@@ -37,7 +37,7 @@ function PracticePage() {
       {tedTalks.length > 0 && (
         <select
           onChange={handleSelectTalk}
-          className="w-full max-w-md px-3 py-2 mb-4 text-sm border border-gray-300 rounded-lg sm:text-base"
+          className="w-full max-w-md px-3 py-2 mb-4 text-sm bg-green-200 border border-green-300 rounded-lg sm:text-base"
         >
           {tedTalks.map((talk, index) => (
             <option key={talk.id.videoId} value={index}>
@@ -48,7 +48,7 @@ function PracticePage() {
       )}
 
       {selectedTalk && (
-        <div className="w-full max-w-xl p-4 text-white bg-blue-700 rounded-lg shadow-lg">
+        <div className="w-full max-w-xl p-4 text-green-200 bg-green-700 rounded-lg shadow-lg">
           {/* Talk Title and Description */}
           <h2 className="mb-2 text-lg font-semibold text-center sm:text-xl lg:text-2xl">
             {selectedTalk.snippet.title}
@@ -80,7 +80,7 @@ function PracticePage() {
           </div>
 
           {/* Transcript Display */}
-          <div className="p-3 text-center bg-blue-600 rounded-lg">
+          <div className="p-3 text-center bg-green-600 rounded-lg">
             <TranscriptDisplay videoId={selectedTalk.id.videoId} />
           </div>
         </div>
