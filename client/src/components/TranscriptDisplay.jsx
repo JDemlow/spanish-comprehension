@@ -97,9 +97,9 @@ function TranscriptDisplay({ videoId }) {
   }
 
   return (
-    <div className="relative flex">
-      {/* Fixed sidebar for progress bar, score, check answers button, special characters, reset button, and show answers button */}
-      <div className="fixed flex flex-col space-y-2 left-4 top-20">
+    <div className="relative flex flex-col md:flex-row">
+      {/* Fixed sidebar - hidden on mobile screens */}
+      <div className="fixed flex-col hidden space-y-2 md:flex left-4 top-20">
         {/* Progress Bar */}
         <div className="w-full h-4 bg-gray-300 rounded-full">
           <div
@@ -148,7 +148,7 @@ function TranscriptDisplay({ videoId }) {
       </div>
 
       {/* Main content area */}
-      <div className="w-full max-w-2xl p-4 mt-6 ml-20 text-black rounded shadow-md bg-gray-50">
+      <div className="w-full max-w-2xl p-4 mt-6 ml-20 text-black rounded shadow-md md:ml-20 bg-gray-50">
         <h2>Transcript</h2>
         <div>
           {transcript.map((item, index) => (
